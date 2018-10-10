@@ -55,7 +55,7 @@ bot.on("message", async message => {
 	            bio = bio.substring(bio.indexOf("\":"));
 	            bio = bio.replace("\":\"","");
 	            bio = bio.substring(0,bio.indexOf("\""));
-	            bio = bio.replace("\\n","\n");
+	            bio = bio.replace("\n","\\n");
 
 	            if(bio == "")
 	            {
