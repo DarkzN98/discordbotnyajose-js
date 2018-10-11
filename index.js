@@ -27,7 +27,19 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}invite`)
 	{
-		return message.channel.send("Invite : https://discordapp.com/oauth2/authorize?client_id=499487687984676876&permissions=0&scope=bot");
+		return message.channel.send("Invite : https://discordapp.com/api/oauth2/authorize?client_id=499589289106210816&permissions=0&scope=bot");
+	}
+
+	if(command === `${prefix}help`)
+	{
+		let helpEmbed = new Discord.RichEmbed()
+		.setColor("#00AE86")
+		.setTitle("Help")
+		.addField(";cekig {username}", "Check {username}'s Instagram Account")
+		.addField(";help","Show This Help Message")
+		.addField(";invite","Send This Bot's Invite Link")
+		;
+		message.channel.send(helpEmbed);
 	}
 
 	if(command === `${prefix}cekig`)
