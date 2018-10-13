@@ -32,14 +32,39 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}help`)
 	{
-		let helpEmbed = new Discord.RichEmbed()
-		.setColor("#00AE86")
-		.setTitle("Help")
-		.addField(";cekig {username}", "Check {username}'s Instagram Account")
-		.addField(";help","Show This Help Message")
-		.addField(";invite","Send This Bot's Invite Link")
-		;
-		message.channel.send(helpEmbed);
+		if(args[0] == "undefined")
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#00AE86")
+			.setTitle("Help")
+			.setDescription("Do `;help <command>` for extended information on a command.")
+			.addField("Instagram Commands","`;cekig`", true)
+			.addField("Bot Commands","`;help` \n `;invite`",true)
+			;
+			message.channel.send(helpEmbed);
+		}
+		else if(args[0] === "invite")
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#ff0000")
+			.setTitle(";invite")
+			.setDescription("Send This Bot's Invite Link")
+			.addField("Usage", "`;invite`", true)
+			;
+			message.channel.send(helpEmbed);
+		}
+		else if(args[0] === "cekig")
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#ff0000")
+			.setTitle(";cekig")
+			.setDescription("Check Instagram Account")
+			.addField("Usage", "`;cekig <username>`", true)
+			.addField("Example","`;cekig awesomeman123`",true)
+			;
+			message.channel.send(helpEmbed);
+		}
+		
 	}
 
 	if(command === `${prefix}cekig`)
@@ -114,7 +139,7 @@ bot.on("message", async message => {
 
 	            let botembed = new Discord.RichEmbed()
 	            .setTitle("INFO : ")
-		    .setColor("00ff00")
+		    	.setColor("00ff00")
 	            .setImage(ppHDURL)
 	            .addField("Name : ", title)
 	            .addField("Bio :", bio)
