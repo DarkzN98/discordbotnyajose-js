@@ -175,7 +175,12 @@ bot.on("message", async message => {
 		}
 		else
 		{
-			return message.channel.send("Invalid Amount of Argument, please do `;help cekig` for more info");
+			let fotoigembed = new Discord.RichEmbed()
+			.setTitle("Error")
+			.setColor("#FF0000")
+			.setDescription("Invalid Amount of Argument, please do `;help cekig` for more info");
+			;
+			return message.channel.send(fotoigembed);
 		}
 			
 	}
@@ -354,15 +359,30 @@ bot.on("message", async message => {
 						{
 							if(args[1] > 12)
 							{
-								return message.channel.send("Please input a valid amount (1-12)");
+								let fotoigembed = new Discord.RichEmbed()
+								.setTitle("INFO : ")
+						    	.setColor("00ff00")
+						    	.setDescription("Please input a valid amount (1-12)")
+						    	;
+								return message.channel.send(fotoigembed);
 							}
 							else if(args[1] > postCount)
 							{
-								return message.channel.send("Sorry, but this user only has " + postCount + " posts");
+								let fotoigembed = new Discord.RichEmbed()
+								.setTitle("INFO : ")
+						    	.setColor("00ff00")
+						    	.setDescription("Sorry, but this user only has " + postCount + " posts")
+						    	;
+								return message.channel.send(fotoigembed);
 							}
 							else if(args[1]-1 < 0)
 							{
-								return message.channel.send("Please input a valid amount (1-12)");
+								let fotoigembed = new Discord.RichEmbed()
+								.setTitle("INFO : ")
+						    	.setColor("00ff00")
+						    	.setDescription("Please input a valid amount (1-12)")
+						    	;
+								return message.channel.send(fotoigembed);
 							}
 							else
 							{
@@ -386,7 +406,12 @@ bot.on("message", async message => {
 		}
 		else 
 		{
-			return message.channel.send("Invalid Amount of Argument, please do `;help fotoig` for more info");
+			let fotoigembed = new Discord.RichEmbed()
+			.setTitle("Error")
+			.setColor("#FF0000")
+			.setDescription("Invalid Amount of Argument, please do `;help fotoig` for more info");
+			;
+			return message.channel.send(fotoigembed);
 		}
 	}
 
