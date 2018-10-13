@@ -32,6 +32,7 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}help`)
 	{
+		message.channel.send(args[0]);
 		if(args[0] == "undefined")
 		{
 			let helpEmbed = new Discord.RichEmbed()
