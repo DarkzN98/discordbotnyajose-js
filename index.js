@@ -194,175 +194,190 @@ bot.on("message", async message => {
 				}
 				else
 				{
-					// console.log("------edges------");
-					var edges = body.substring(body.indexOf("\"edge_owner_to_timeline_media\""),body.indexOf("},\"edge_saved_media\":"));
+					var isPrivate = " ";
+		            isPrivate = body.substring(body.indexOf("is_private"));
+		            isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
+		            isPrivate = isPrivate.replace("\":","");
 
-					//get edges count
-					var edgesCount = edges.substring(edges.indexOf("\"count\":"));
-					edgesCount = edgesCount.substring(0,edgesCount.indexOf(","));
-					edgesCount = edgesCount.substring(edgesCount.indexOf(":")+1);
-
-					//getPosts
-					edges = edges.substring(edges.indexOf("\"edges\":"));
-					var postCount = edgesCount;
-
-					// console.log(edges);
-					// console.log("Edges Count = " + edgesCount);
-
-					if(postCount == 0)
-					{
-						let fotoigembed = new Discord.RichEmbed()
+		            if(isPrivate == "true")
+		            {
+		            	let fotoigembed = new Discord.RichEmbed()
 						.setTitle("Instagram Photo")
 						.setColor("#FF0000")
-						.setDescription("Sorry, this profile has no Pictures/Posts");
+						.setDescription("Sorry, this profile is Private");
 						;
 						return message.channel.send(fotoigembed);
-					}
-					else if(postCount > 12)
-					{
-						postCount = 12;
-						console.log("Post lebih dari 12");
-					}
+		            }
+		            else
+		            {
+		            	// console.log("------edges------");
+						var edges = body.substring(body.indexOf("\"edge_owner_to_timeline_media\""),body.indexOf("},\"edge_saved_media\":"));
 
-					//getpost insert to array
-					var posts = [];
-					var postsdesc = [];
-					//var lastIndex = -1;
+						//get edges count
+						var edgesCount = edges.substring(edges.indexOf("\"count\":"));
+						edgesCount = edgesCount.substring(0,edgesCount.indexOf(","));
+						edgesCount = edgesCount.substring(edgesCount.indexOf(":")+1);
 
-					for (var i = 0; i < postCount; i++) 
-					{
-						console.log("");
-						console.log("--Node" + i + "--");
-						//0 = nodeOri
-						//1 = type
-						//2 = display_url
-						//3 = edge_liked_by
-						//4 = edge_media_to_comment count
-						//5 = taken_at_timestamp
-						//6 = comments_disabled
-						//7 = is_video
-						//8 = text
+						//getPosts
+						edges = edges.substring(edges.indexOf("\"edges\":"));
+						var postCount = edgesCount;
 
-						posts.push(new Array("","","","","","","","",""));
-						//console.log(edges.substring(edges.indexOf("{\"node\":\"__typename\":")));
-						//if(thisnode typename == vedio then search for video)
-						posts[i][0] = edges.substring(edges.indexOf("\"node\":{\"__typename\":"));
-						posts[i][1] = posts[i][0].substring(0, posts[i][0].indexOf("\","));
-						posts[i][1] = posts[i][1].substring(posts[i][1].lastIndexOf("\"") +1);
+						// console.log(edges);
+						// console.log("Edges Count = " + edgesCount);
 
-						if(i != postCount-1)
+						if(postCount == 0)
 						{
-							if(posts[i][1] == "GraphImage")
+							let fotoigembed = new Discord.RichEmbed()
+							.setTitle("Instagram Photo")
+							.setColor("#FF0000")
+							.setDescription("Sorry, this profile has no Pictures/Posts");
+							;
+							return message.channel.send(fotoigembed);
+						}
+						else if(postCount > 12)
+						{
+							postCount = 12;
+							console.log("Post lebih dari 12");
+						}
+
+						//getpost insert to array
+						var posts = [];
+						var postsdesc = [];
+						//var lastIndex = -1;
+
+						for (var i = 0; i < postCount; i++) 
+						{
+							console.log("");
+							console.log("--Node" + i + "--");
+							//0 = nodeOri
+							//1 = type
+							//2 = display_url
+							//3 = edge_liked_by
+							//4 = edge_media_to_comment count
+							//5 = taken_at_timestamp
+							//6 = comments_disabled
+							//7 = is_video
+							//8 = text
+
+							posts.push(new Array("","","","","","","","",""));
+							//console.log(edges.substring(edges.indexOf("{\"node\":\"__typename\":")));
+							//if(thisnode typename == vedio then search for video)
+							posts[i][0] = edges.substring(edges.indexOf("\"node\":{\"__typename\":"));
+							posts[i][1] = posts[i][0].substring(0, posts[i][0].indexOf("\","));
+							posts[i][1] = posts[i][1].substring(posts[i][1].lastIndexOf("\"") +1);
+
+							if(i != postCount-1)
 							{
-								posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
-								edges = edges.substring(posts[i][0].length);
+								if(posts[i][1] == "GraphImage")
+								{
+									posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
+									edges = edges.substring(posts[i][0].length);
+								}
+								else if(posts[i][1] == "GraphSidecar")
+								{
+									posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
+									edges = edges.substring(posts[i][0].length);
+								}
+								else if(posts[i][1] == "GraphVideo")
+								{
+									posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("video_view_count")));
+									edges = edges.substring(posts[i][0].length);
+								}
 							}
-							else if(posts[i][1] == "GraphSidecar")
+							else
 							{
-								posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
-								edges = edges.substring(posts[i][0].length);
+								posts[i][0] = posts[i][0].substring(0,posts[i][0].lastIndexOf("]") - 1);
 							}
-							else if(posts[i][1] == "GraphVideo")
+
+							// Process eachNode
+							//find DisplayURL
+							posts[i][2] = posts[i][0].substring(posts[i][0].indexOf("\"display_url\":") + 15);
+							posts[i][2] = posts[i][2].substring(0,posts[i][2].indexOf("\","));
+							// find Like
+							posts[i][3] = posts[i][0].substring(posts[i][0].indexOf("\"edge_liked_by\":") + 25);
+							posts[i][3] = posts[i][3].substring(0,posts[i][3].indexOf("}"));
+							// find comment
+							posts[i][4] = posts[i][0].substring(posts[i][0].indexOf("\"edge_media_to_comment\":") + 33);
+							posts[i][4] = posts[i][4].substring(0,posts[i][4].indexOf("}"));
+							// find timestamp
+							posts[i][5] = posts[i][0].substring(posts[i][0].indexOf("\"taken_at_timestamp\":") + 21);
+							posts[i][5] = posts[i][5].substring(0,posts[i][5].indexOf(","));
+							// find comments_disabled
+							posts[i][6] = posts[i][0].substring(posts[i][0].indexOf("\"comments_disabled\":") + 20);
+							posts[i][6] = posts[i][6].substring(0,posts[i][6].indexOf(","));
+							// find is_video
+							posts[i][7] = posts[i][0].substring(posts[i][0].indexOf("\"is_video\":") + 11);
+							posts[i][7] = posts[i][7].substring(0,posts[i][7].indexOf(","));
+							// find text
+							
+							if(posts[i][0].indexOf("\"text\":") == -1)
 							{
-								posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("video_view_count")));
-								edges = edges.substring(posts[i][0].length);
+								posts[i][8] = "This Image Has No Caption";
 							}
+							else
+							{
+								posts[i][8] = posts[i][0].substring(posts[i][0].indexOf("\"text\":") + 8);
+								posts[i][8] = posts[i][8].substring(0,posts[i][8].indexOf("\"}"));
+							}
+							
+							console.log("POST TYPE = " + posts[i][1]);
+							console.log("display_url = " + posts[i][2]);
+							console.log("Liked By = " + posts[i][3]);
+							console.log("Commented by = " + posts[i][4]);
+							console.log("timestamp = " + posts[i][5]);
+							console.log("comments disabled = " + posts[i][6]);
+							console.log("is_video = " + posts[i][7]);
+							console.log("text = " + posts[i][8]);
+							console.log();
+							console.log("---END NODE---");
+							
+							//posts[i][node] = edges.substring
+						}
+
+						if(args.length == 1)
+						{
+							//get the first info
+							let fotoigembed = new Discord.RichEmbed()
+							.setTitle("INFO : ")
+					    	.setColor("00ff00")
+				            .setImage(posts[0][2])
+				            .addField("Caption", posts[0][8])
+				            .addField("Like : ", posts[0][3],true)
+				            .addField("Comment Count : ", posts[0][4],true)
+				            .addField("Timestamp : ",posts[0][5],true)
+				            .addField("Comments Disabled :" ,posts[0][6],true)
+				            .addField("is_video : ",posts[0][7],true)
+				            ;
+							return message.channel.send(fotoigembed);
 						}
 						else
 						{
-							posts[i][0] = posts[i][0].substring(0,posts[i][0].lastIndexOf("]") - 1);
+							if(args[1] > postCount)
+							{
+								return message.channel.send("Sorry, but this user only has " + postCount + " posts");
+							}
+							else if(args[1]-1 < 0)
+							{
+								return message.channel.send("Please input a valid amount (1-12)");
+							}
+							else
+							{
+								let fotoigembed = new Discord.RichEmbed()
+								.setTitle("INFO : ")
+						    	.setColor("00ff00")
+					            .setImage(posts[args[1]-1][2])
+					            .addField("Caption", posts[args[1]-1][8])
+					            .addField("Like : ", posts[args[1]-1][3],true)
+					            .addField("Comment Count : ", posts[args[1]-1][4],true)
+					            .addField("Timestamp : ",posts[args[1]-1][5],true)
+					            .addField("Comments Disabled :" ,posts[args[1]-1][6],true)
+					            .addField("is_video : ",posts[args[1]-1][7],true)
+					            ;
+								return message.channel.send(fotoigembed);
+							}
 						}
-
-						// Process eachNode
-						//find DisplayURL
-						posts[i][2] = posts[i][0].substring(posts[i][0].indexOf("\"display_url\":") + 15);
-						posts[i][2] = posts[i][2].substring(0,posts[i][2].indexOf("\","));
-						// find Like
-						posts[i][3] = posts[i][0].substring(posts[i][0].indexOf("\"edge_liked_by\":") + 25);
-						posts[i][3] = posts[i][3].substring(0,posts[i][3].indexOf("}"));
-						// find comment
-						posts[i][4] = posts[i][0].substring(posts[i][0].indexOf("\"edge_media_to_comment\":") + 33);
-						posts[i][4] = posts[i][4].substring(0,posts[i][4].indexOf("}"));
-						// find timestamp
-						posts[i][5] = posts[i][0].substring(posts[i][0].indexOf("\"taken_at_timestamp\":") + 21);
-						posts[i][5] = posts[i][5].substring(0,posts[i][5].indexOf(","));
-						// find comments_disabled
-						posts[i][6] = posts[i][0].substring(posts[i][0].indexOf("\"comments_disabled\":") + 20);
-						posts[i][6] = posts[i][6].substring(0,posts[i][6].indexOf(","));
-						// find is_video
-						posts[i][7] = posts[i][0].substring(posts[i][0].indexOf("\"is_video\":") + 11);
-						posts[i][7] = posts[i][7].substring(0,posts[i][7].indexOf(","));
-						// find text
-						
-						if(posts[i][0].indexOf("\"text\":") == -1)
-						{
-							posts[i][8] = "This Image Has No Caption";
-						}
-						else
-						{
-							posts[i][8] = posts[i][0].substring(posts[i][0].indexOf("\"text\":") + 8);
-							posts[i][8] = posts[i][8].substring(0,posts[i][8].indexOf("\"}"));
-						}
-						
-						console.log("POST TYPE = " + posts[i][1]);
-						console.log("display_url = " + posts[i][2]);
-						console.log("Liked By = " + posts[i][3]);
-						console.log("Commented by = " + posts[i][4]);
-						console.log("timestamp = " + posts[i][5]);
-						console.log("comments disabled = " + posts[i][6]);
-						console.log("is_video = " + posts[i][7]);
-						console.log("text = " + posts[i][8]);
-						console.log();
-						console.log("---END NODE---");
-						
-						//posts[i][node] = edges.substring
-					}
+		            }
 				}
-
-				if(args.length == 1)
-				{
-					//get the first info
-					let fotoigembed = new Discord.RichEmbed()
-					.setTitle("INFO : ")
-			    	.setColor("00ff00")
-		            .setImage(posts[0][2])
-		            .addField("Caption", posts[0][8])
-		            .addField("Like : ", posts[0][3],true)
-		            .addField("Comment Count : ", posts[0][4],true)
-		            .addField("Timestamp : ",posts[0][5],true)
-		            .addField("Comments Disabled :" ,posts[0][6],true)
-		            .addField("is_video : ",posts[0][7],true)
-		            ;
-					return message.channel.send(fotoigembed);
-				}
-				else
-				{
-					if(args[1] > postCount)
-					{
-						return message.channel.send("Sorry, but this user only has " + postCount + " posts");
-					}
-					else if(args[1]-1 < 0)
-					{
-						return message.channel.send("Please input a valid amount (1-12)");
-					}
-					else
-					{
-						let fotoigembed = new Discord.RichEmbed()
-						.setTitle("INFO : ")
-				    	.setColor("00ff00")
-			            .setImage(posts[args[1]-1][2])
-			            .addField("Caption", posts[args[1]-1][8])
-			            .addField("Like : ", posts[args[1]-1][3],true)
-			            .addField("Comment Count : ", posts[args[1]-1][4],true)
-			            .addField("Timestamp : ",posts[args[1]-1][5],true)
-			            .addField("Comments Disabled :" ,posts[args[1]-1][6],true)
-			            .addField("is_video : ",posts[args[1]-1][7],true)
-			            ;
-						return message.channel.send(fotoigembed);
-					}
-					
-				}
-
 			});
 		}
 		else 
