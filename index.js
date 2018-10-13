@@ -32,8 +32,7 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}help`)
 	{
-		message.channel.send(args[0]);
-		if(args[0] == "undefined")
+		if(args.length == 0)
 		{
 			let helpEmbed = new Discord.RichEmbed()
 			.setColor("#00AE86")
@@ -62,6 +61,17 @@ bot.on("message", async message => {
 			.setDescription("Check Instagram Account")
 			.addField("Usage", "`;cekig <username>`", true)
 			.addField("Example","`;cekig awesomeman123`",true)
+			;
+			message.channel.send(helpEmbed);
+		}
+		else if(args[0] === "help")
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#ff0000")
+			.setTitle(";help")
+			.setDescription("Show This Help")
+			.addField("Usage", "`;help` \n `;help <command>`", true)
+			.addField("Example","`;help invite`",true)
 			;
 			message.channel.send(helpEmbed);
 		}
