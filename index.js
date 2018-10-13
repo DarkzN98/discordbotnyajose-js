@@ -352,7 +352,11 @@ bot.on("message", async message => {
 						}
 						else
 						{
-							if(args[1] > postCount)
+							if(args[1] > 12)
+							{
+								return message.channel.send("Please input a valid amount (1-12)");
+							}
+							else if(args[1] > postCount)
 							{
 								return message.channel.send("Sorry, but this user only has " + postCount + " posts");
 							}
