@@ -114,6 +114,7 @@ bot.on("message", async message => {
 
 	            let botembed = new Discord.RichEmbed()
 	            .setTitle("INFO : ")
+		    .setColor("00ff00")
 	            .setImage(ppHDURL)
 	            .addField("Name : ", title)
 	            .addField("Bio :", bio)
@@ -131,3 +132,4 @@ bot.on("message", async message => {
 });
 
 bot.login(process.env.token);
+
