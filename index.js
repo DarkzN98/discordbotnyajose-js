@@ -91,7 +91,7 @@ bot.on("message", async message => {
 			let helpEmbed = new Discord.RichEmbed()
 			.setColor("#ff0000")
 			.setTitle("Error")
-			.setDescription("Help for `"+args[0] + "` command, was not found \n do ;help to show all commands!")
+			.setDescription("Help for `"+args[0] + "` command, was not found \n**do `;help` to show all commands!**")
 			;
 			message.channel.send(helpEmbed);
 		}
@@ -424,12 +424,12 @@ bot.on("message", async message => {
 		}
 	}
 	
-	if(command === `${prefix}` && args.lenght > 0)
+	if(command === `${prefix}`)
 	{
 	    let errorEmbed = new Discord.RichEmbed()
             .setTitle("Error")
 	    .setColor("#FF0000")
-            .setDescription("`"+ args[0] + "` is not a valid command! \ndo ;help to show all commands!");
+            .setDescription("that is not a valid command! \n**do `;help` to show all commands!**");
 	    ;
 	    return message.channel.send(errorEmbed);
 	}
