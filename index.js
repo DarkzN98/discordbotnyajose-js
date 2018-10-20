@@ -114,7 +114,7 @@ bot.on("message", async message => {
 		            bio = bio.substring(bio.indexOf("\":"));
 		            bio = bio.replace("\":\"","");
 		            bio = bio.substring(0,bio.indexOf("\""));
-		            bio = bio.replace("\n","\\n");
+		            bio = bio.replace(/\\n/g, "\n");
 
 		            if(bio == "")
 		            {
@@ -242,7 +242,7 @@ bot.on("message", async message => {
 						else if(postCount > 12)
 						{
 							postCount = 12;
-							console.log("Post lebih dari 12");
+							//console.log("Post lebih dari 12");
 						}
 
 						//getpost insert to array
@@ -252,8 +252,8 @@ bot.on("message", async message => {
 
 						for (var i = 0; i < postCount; i++) 
 						{
-							console.log("");
-							console.log("--Node" + i + "--");
+							// console.log("");
+							// console.log("--Node" + i + "--");
 							//0 = nodeOri
 							//1 = type
 							//2 = display_url
@@ -323,18 +323,19 @@ bot.on("message", async message => {
 							{
 								posts[i][8] = posts[i][0].substring(posts[i][0].indexOf("\"text\":") + 8);
 								posts[i][8] = posts[i][8].substring(0,posts[i][8].indexOf("\"}"));
+								posts[i][8] = posts[i][8].replace(/\\n/g, "\n");
 							}
 							
-							console.log("POST TYPE = " + posts[i][1]);
-							console.log("display_url = " + posts[i][2]);
-							console.log("Liked By = " + posts[i][3]);
-							console.log("Commented by = " + posts[i][4]);
-							console.log("timestamp = " + posts[i][5]);
-							console.log("comments disabled = " + posts[i][6]);
-							console.log("is_video = " + posts[i][7]);
-							console.log("text = " + posts[i][8]);
-							console.log();
-							console.log("---END NODE---");
+							// console.log("POST TYPE = " + posts[i][1]);
+							// console.log("display_url = " + posts[i][2]);
+							// console.log("Liked By = " + posts[i][3]);
+							// console.log("Commented by = " + posts[i][4]);
+							// console.log("timestamp = " + posts[i][5]);
+							// console.log("comments disabled = " + posts[i][6]);
+							// console.log("is_video = " + posts[i][7]);
+							// console.log("text = " + posts[i][8]);
+							// console.log();
+							// console.log("---END NODE---");
 							
 							//posts[i][node] = edges.substring
 						}
@@ -397,7 +398,49 @@ bot.on("message", async message => {
 					            .addField("Comments Disabled :" ,posts[args[1]-1][6],true)
 					            .addField("is_video : ",posts[args[1]-1][7],true)
 					            ;
-								return message.channel.send(fotoigembed);
+
+					            //console.log(posts[args[1]-1][0]);
+					   			//console.log("POST TYPE = " + posts[args[1]-1][1]);
+								// console.log("display_url = " + posts[args[1]-1][2]);
+								// console.log("Liked By = " + posts[args[1]-1][3]);
+								// console.log("Commented by = " + posts[args[1]-1][4]);
+								// console.log("timestamp = " + posts[args[1]-1][5]);
+								// console.log("comments disabled = " + posts[args[1]-1][6]);
+								// console.log("is_video = " + posts[args[1]-1][7]);
+								// console.log("text = " + posts[args[1]-1][8]);
+								// console.log();
+								// console.log("---END NODE---");
+								
+								if(posts[args[1]-1][7] == "true")
+								{	
+									var videoLink = posts[args[1]-1][0].substring(posts[args[1]-1][0].indexOf("\"shortcode\":") + 12);
+									videoLink = videoLink.substring(1,videoLink.indexOf("\","));
+									videoLink = "https://www.instagram.com/p/"+videoLink+"/";
+
+									//console.log(videoLink);
+									//REQUEST HTML
+									var request = require('request');
+									request(videoLink, function(error, response, body)
+									{	
+										if(response.statusCode == 404)
+										{
+											return message.channel.send(fotoigembed);
+										}
+										else
+										{
+											var link = body.substring(body.indexOf("\"og:video\""));
+											link = link.substring(link.indexOf("https"));
+											link = link.substring(0,link.indexOf("\""));
+											fotoigembed.attachFile(link);
+											fotoigembed.addField("Video URL : ",link,true);
+											return message.channel.send(fotoigembed);
+										}
+									});
+								}
+								else
+								{
+									return message.channel.send(fotoigembed);
+								}
 							}
 						}
 		            }
@@ -418,4 +461,3 @@ bot.on("message", async message => {
 });
 
 bot.login(process.env.token);
-
