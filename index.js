@@ -86,6 +86,15 @@ bot.on("message", async message => {
 			;
 			message.channel.send(helpEmbed);
 		}
+		else
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#ff0000")
+			.setTitle("Error")
+			.setDescription("Help for `"+args[0] + "` command, was not found \n**do `;help` to show all commands!**")
+			;
+			message.channel.send(helpEmbed);
+		}
 	}
 
 	if(command === `${prefix}cekig`)
@@ -456,6 +465,16 @@ bot.on("message", async message => {
 			;
 			return message.channel.send(fotoigembed);
 		}
+	}
+	
+	if(command === `${prefix}`)
+	{
+	    let errorEmbed = new Discord.RichEmbed()
+            .setTitle("Error")
+	    .setColor("#FF0000")
+            .setDescription("that is not a valid command! \n**do `;help` to show all commands!**");
+	    ;
+	    return message.channel.send(errorEmbed);
 	}
 
 });
