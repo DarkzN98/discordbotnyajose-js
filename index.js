@@ -354,8 +354,8 @@ bot.on("message", async message => {
 				            .addField("Comments Disabled :" ,posts[0][6],true)
 				            .addField("is_video : ",posts[0][7],true)
 				            ;
-				            
-							if(posts[args[1]-1][7] == "true")
+
+							if(posts[0][7] == "true")
 							{	
 								var videoLink = posts[args[1]-1][0].substring(posts[args[1]-1][0].indexOf("\"shortcode\":") + 12);
 								videoLink = videoLink.substring(1,videoLink.indexOf("\","));
