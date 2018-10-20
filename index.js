@@ -354,7 +354,37 @@ bot.on("message", async message => {
 				            .addField("Comments Disabled :" ,posts[0][6],true)
 				            .addField("is_video : ",posts[0][7],true)
 				            ;
-							return message.channel.send(fotoigembed);
+				            
+							if(posts[args[1]-1][7] == "true")
+							{	
+								var videoLink = posts[args[1]-1][0].substring(posts[args[1]-1][0].indexOf("\"shortcode\":") + 12);
+								videoLink = videoLink.substring(1,videoLink.indexOf("\","));
+								videoLink = "https://www.instagram.com/p/"+videoLink+"/";
+
+								//console.log(videoLink);
+								//REQUEST HTML
+								var request = require('request');
+								request(videoLink, function(error, response, body)
+								{	
+									if(response.statusCode == 404)
+									{
+										return message.channel.send(fotoigembed);
+									}
+									else
+									{
+										var link = body.substring(body.indexOf("\"og:video\""));
+										link = link.substring(link.indexOf("https"));
+										link = link.substring(0,link.indexOf("\""));
+										fotoigembed.attachFile(link);
+										fotoigembed.addField("Video URL : ",link,true);
+										return message.channel.send(fotoigembed);
+									}
+								});
+							}
+							else
+							{
+								return message.channel.send(fotoigembed);
+							}
 						}
 						else
 						{
@@ -365,6 +395,7 @@ bot.on("message", async message => {
 						    	.setColor("00ff00")
 						    	.setDescription("Please input a valid amount (1-12)")
 						    	;
+
 								return message.channel.send(fotoigembed);
 							}
 							else if(args[1] > postCount)
