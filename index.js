@@ -163,7 +163,7 @@ bot.on("message", async message => {
 		            .setTitle("INFO : ")
 			    	.setColor("00ff00")
 		            .setImage(ppHDURL)
-		            .addField("Name : ", title)
+		            .addField("Name : ", title + "https://www.instagram.com/"+args[0]+"/")
 		            .addField("Bio :", bio)
 		            .addField("Follower, Following, Post : ",FFP_Info)
 		            .addField("isPrivate :" ,isPrivate,true)
@@ -492,3 +492,4 @@ bot.on("message", async message => {
 });
 
 bot.login(process.env.token);
+
