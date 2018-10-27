@@ -502,9 +502,9 @@ bot.on("message", async message => {
 			.setTitle("Check Private Result : ");
 			
 			var result = new Object();
-			result.res = "\n";
-			result.privAcc = "\n";
-			result.err = "\n";
+			result.res = "-";
+			result.privAcc = "-";
+			result.err = "-";
 			var wow = setInterval(
 				function()
 				{
