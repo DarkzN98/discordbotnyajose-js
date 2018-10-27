@@ -38,8 +38,9 @@ bot.on("message", async message => {
 			.setColor("#00AE86")
 			.setTitle("Help")
 			.setDescription("Do `;help <command>` for extended information on a command.")
-			.addField("Instagram Commands","`;cekig` \n `;fotoig`", true)
-			.addField("Bot Commands","`;help` \n `;invite`",true)
+			.addField("Instagram Commands","`;cekig` \n`;fotoig`", true)
+			.addField("Bot Commands","`;help` \n`;invite`",true)
+			.addField("ITRC Commands","`;itrc cekpriv` \n`;itrc cekpost <day>/<index>`",true)
 			;
 			message.channel.send(helpEmbed);
 		}
@@ -489,7 +490,108 @@ bot.on("message", async message => {
 		}
 	}
 
+	if(command === `${prefix}itrc`)
+	{
+		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafi_priyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o"];
+		if(args[0] == "cekpriv")
+		{
+			var i = 0;
+
+			let itrcPrivEmbed = new Discord.RichEmbed()
+			.setColor("#00FF00")
+			.setTitle("Check Private Result : ");
+			
+			var result = new Object();
+			result.res = "\n";
+			result.privAcc = "\n";
+			result.err = "\n";
+			var wow = setInterval(
+				function()
+				{
+					var request = require('request');
+					var username = {name: arrUsers[i]};
+					console.log(username.name);
+					request('https://www.instagram.com/'+arrUsers[i]+"/", function(error, response, body)
+					{			
+						if(response.statusCode == 404)
+						{
+				   			result.err += "- " + username.name + "\n";
+						}
+						else
+						{
+							var instaID = username.name;
+							
+				            //isPrivateState
+				            var isPrivate = " ";
+				            isPrivate = body.substring(body.indexOf("is_private"));
+				            isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
+				            isPrivate = isPrivate.replace("\":","");
+
+				      		if(isPrivate == "false")
+				      		{
+				      			result.res += "- " + instaID + "\n"; 
+				      		}
+				      		else
+				      		{
+				      			result.privAcc += "- "+instaID + " https://www.instagram.com/"+username.name+"/" + "\n";
+				      		}
+						}
+						});
+						i++;
+						if(i > arrUsers.length)
+						{
+							clearInterval(wow);
+							i = 0;
+							itrcPrivEmbed.addField("Not Private : ",result.res,true);
+							itrcPrivEmbed.addField("Private Accounts : ", result.privAcc,true);
+							itrcPrivEmbed.addField("Not Found Accounts : ", result.err,true);
+							//console.log(privResults);
+							return message.channel.send(itrcPrivEmbed);
+						}
+					},500);
+
+			
+		}
+		else if(args[0] == "cekpost")
+		{
+			if(args.length >= 2)
+			{
+				if(args[1] == 1 || args[1].toLowerCase() == "selasa")
+				{
+					//Selasa
+					return message.channel.send("Check Selasa");
+				}
+				else if(args[1] == 2 || args[1].toLowerCase() == "rabu")
+				{
+					//Rabu
+					return message.channel.send("Check Rabu");
+				}
+				else if(args[1] == 3 || args[1].toLowerCase() == "jumat")
+				{
+					//Jumat
+					return message.channel.send("Check Jumat");
+				}
+				else if(args[1] == 4 || args[1].toLowerCase() == "minggu")
+				{
+					// Minggu
+					return message.channel.send("Check Minggu");
+				}
+				else
+				{
+					let errorEmbed = new Discord.RichEmbed()
+					.setColor("#FF0000")
+					.setTitle("Error")
+					.setDescription("Invalid Argument");
+					return message.channel.send(errorEmbed);
+				}
+			}
+			else
+			{
+				return message.channel.send("Check Post All");
+			}
+		}
+	}
+
 });
 
 bot.login(process.env.token);
-
