@@ -823,7 +823,7 @@ bot.on("message", async message => {
 									
 									if(posts[i][0].indexOf("\"text\":") == -1)
 									{
-										result.notPost += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+										//result.notPost += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
 									}
 									else
 									{
@@ -909,7 +909,7 @@ bot.on("message", async message => {
 					return message.channel.send(itrcPrivEmbed);
 				}
 			}
-		,1000);
+		,4000);
 	}
 
 });
