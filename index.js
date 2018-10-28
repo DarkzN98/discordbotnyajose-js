@@ -89,23 +89,52 @@ bot.on("message", async message => {
 		}
 		else if(args[0] === "itrc")
 		{
-			let helpEmbed = new Discord.RichEmbed()
-			.setColor("#00FF00")
-			.setTitle("Help")
-			.setDescription("do `;help itrc <command>` for more info")
-			.addField("ITRC Commands","`;itrc privacc`\n`;itrc cekpost <index>`\n",true)
-			;
-			message.channel.send(helpEmbed);
+			if(args.length == 1)
+			{
+				let helpEmbed = new Discord.RichEmbed()
+				.setColor("#00FF00")
+				.setTitle("Help")
+				.setDescription("do `;help itrc <command>` for more info")
+				.addField("ITRC Commands","`;itrc cekpriv`\n`;itrc cekpost <index>/<hari>`\n",true)
+				;
+				return message.channel.send(helpEmbed);
+			}
+			else
+			{
+				if(args[1] === "cekpriv")
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle(";itrc cekpriv")
+					.setDescription("Check Private ITRC Panitia Instagram Accounts")
+					.addField("Usage","`;itrc cekpriv`",true)
+					;
+					return message.channel.send(helpEmbed);
+				}
+				else if(args[1] === "cekpost")
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle(";itrc cekpost <index>")
+					.setDescription("Check ITRC Panitia Instagram Posts")
+					.addField("Usage","`;itrc cekpost <index>/<hari>`",true)
+					.addField("Valid Hari","- Selasa/(1)\n- Rabu/(2)\n- Jumat/(3)\n - Minggu/(4)",true)
+					.addField("Example","`;itrc cekpost 1` -> *Checks Post Hari Selasa*\n`;itrc cekpost selasa` -> *Checks Post Hari Selasa*")
+					;
+					return message.channel.send(helpEmbed);
+				}
+				else
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#FF0000")
+					.setTitle("Error")
+					.setDescription("Couldn't Find `" + args[1] + "` for itrc commands, do ;help itrc for more info")
+					;
+					return message.channel.send(helpEmbed);
+				}
+			}
+			
 		}
-	}
-
-	if(command === `${prefix}cobamaxstring`)
-	{
-		let cobamaxstring = new Discord.RichEmbed()
-		.setColor("#FF00FF")
-		.setTitle("COBA MAX")
-		.addField("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25");
-		return message.channel.send(cobamaxstring);
 	}
 
 	if(command === `${prefix}cekig`)
@@ -511,14 +540,12 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}itrc`)
 	{
-		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius"];
-		console.log(arrUsers.length);
-		console.log("-------arruserlengt-------");
+		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius","darkzn98"];
 		arrUsers.sort();
 		if(args[0] == "cekpriv")
 		{
+			message.channel.send("**Checking Instagram Accounts, Please Wait This May Take a While**\n**If This bot doesn't return anything in 1 min please try again**");
 			var i = 0;
-
 			let itrcPrivEmbed = new Discord.RichEmbed()
 			.setColor("#00FF00")
 			.setTitle("Check Private Result : ");
@@ -530,7 +557,6 @@ bot.on("message", async message => {
 			var wow = setInterval(
 				function()
 				{
-					
 						if(i != arrUsers.length)
 						{
 							var request = require('request');
@@ -538,7 +564,7 @@ bot.on("message", async message => {
 							//console.log(username.name);
 							request('https://www.instagram.com/'+arrUsers[i]+"/", function(error, response, body)
 							{			
-								if(response != "" && response.statusCode == 404)
+								if(typeof response == 'undefined' || response.statusCode == 404)
 								{
 						   			result.err += "- " + username.name + "\n";
 								}
@@ -554,21 +580,21 @@ bot.on("message", async message => {
 
 						      		if(isPrivate == "false")
 						      		{
-						      			result.res += "- " + instaID + "\n"; 
+						      			result.res += "- " + instaID + "\n";
+						      			console.log("return : " + instaID); 
 						      		}
 						      		else
 						      		{
 						      			result.privAcc += "- "+instaID + " https://www.instagram.com/"+username.name+"/" + "\n";
+						      			console.log("return : " + instaID);
 						      		}
 								}
 								});
 						}
 						
-						console.log("i sebelum" + i);
 						i++;
-						console.log("i sesudah : " + i);
-
-						if(i > arrUsers.length-1)
+						
+						if(i > arrUsers.length)
 						{
 							console.log("i Stop : " + i);
 							clearInterval(wow);
@@ -594,10 +620,7 @@ bot.on("message", async message => {
 							itrcPrivEmbed.addField("Not Found Accounts : ", result.err,true);
 							return message.channel.send(itrcPrivEmbed);
 						}
-						
 					},500);
-
-			
 		}
 		else if(args[0] == "cekpost")
 		{
@@ -607,23 +630,33 @@ bot.on("message", async message => {
 				{
 					//Selasa
 					var igSelasa = ["marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
-					return message.channel.send("Check Selasa");
+					var storySelasa = ["fxaucky","26_ttam","mitchellarthur","id_richards","delvin_limanto","dafipriyadi"];
+					cekStoryAndPost(storySelasa,igSelasa);
+					//return message.channel.send("Check Selasa");
 				}
 				else if(args[1] == 2 || args[1].toLowerCase() == "rabu")
 				{
 					//Rabu
-					var igRabu = [];
-					return message.channel.send("Check Rabu");
+					var storyRabu = ["marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
+					var igRabu = ["fxaucky","26_ttam","mitchellarthur","id_richards","delvin_limanto","dafipriyadi"];
+					cekStoryAndPost(storyRabu,igRabu);
+					//return message.channel.send("Check Rabu");
 				}
 				else if(args[1] == 3 || args[1].toLowerCase() == "jumat")
 				{
 					//Jumat
-					return message.channel.send("Check Jumat");
+					var igJumat = ["kelvingnw","gedionsaputra","jason_marcellino","kris_sastrabudi","wanderingsoul_id","williamhartanto25"];
+					var storyJumat = ["malvinpatrick","epiphany_lithia","adrianiignatius","excelalexander","will.gun","yohanesivan__"];
+					cekStoryAndPost(storyJumat,igJumat);
+					//return message.channel.send("Check Jumat");
 				}
 				else if(args[1] == 4 || args[1].toLowerCase() == "minggu")
 				{
 					// Minggu
-					return message.channel.send("Check Minggu");
+					var storyMinggu = ["kelvingnw","gedionsaputra","jason_marcellino","kris_sastrabudi","wanderingsoul_id","williamhartanto25"];
+					var igMinggu = ["malvinpatrick","epiphany_lithia","adrianiignatius","excelalexander","will.gun","yohanesivan__"];
+					cekStoryAndPost(storyMinggu,igMinggu);
+					//return message.channel.send("Check Minggu");
 				}
 				else
 				{
@@ -636,9 +669,247 @@ bot.on("message", async message => {
 			}
 			else
 			{
-				return message.channel.send("Check Post All");
+				let errorEmbed = new Discord.RichEmbed()
+				.setColor("#FF0000")
+				.setTitle("Error")
+				.setDescription("Invalid Amount Of Argument, do `;help itrc` for more info");
+				return message.channel.send(errorEmbed);
 			}
 		}
+	}
+
+	function cekStoryAndPost(story,post)
+	{
+		story.sort();
+		post.sort();
+		console.log(story);
+		console.log(post);
+
+		var result = new Object();
+		result.res = "";
+		result.privacc = "";
+		result.notPost = "";
+		result.err = "";
+		result.stories = "";
+
+		var x = 0;
+		let itrcPrivEmbed = new Discord.RichEmbed()
+		.setColor("#00FF00")
+		.setTitle("Check Post Result : ");
+		message.channel.send("**Checking Instagram Accounts, Please Wait This May Take a While**\n**If This bot doesn't return anything in 1 min please try again**");
+		var looping = setInterval
+		(
+			function()
+			{
+				if(x != story.length)
+				{
+					var request = require('request');
+					var username = {name: post[x]};
+
+					request('https://www.instagram.com/'+username.name+"/", function(error, response, body)
+					{	
+						var instaID = username.name;
+						if(typeof response == 'undefined' || response.statusCode == 404)
+						{
+							result.err = "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+						}
+						else
+						{
+							var isPrivate = "";
+				            isPrivate = body.substring(body.indexOf("is_private"));
+				            isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
+				            isPrivate = isPrivate.replace("\":","");
+
+				            if(isPrivate == "true")
+				            {
+				            	result.privacc += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+				            }
+				            else
+				            {
+				            	// console.log("------edges------");
+								var edges = body.substring(body.indexOf("\"edge_owner_to_timeline_media\""),body.indexOf("},\"edge_saved_media\":"));
+
+								//get edges count
+								var edgesCount = edges.substring(edges.indexOf("\"count\":"));
+								edgesCount = edgesCount.substring(0,edgesCount.indexOf(","));
+								edgesCount = edgesCount.substring(edgesCount.indexOf(":")+1);
+
+								//getPosts
+								edges = edges.substring(edges.indexOf("\"edges\":"));
+								var postCount = edgesCount;
+
+								// console.log(edges);
+								// console.log("Edges Count = " + edgesCount);
+
+								if(postCount == 0)
+								{
+									return result.privacc += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+								}
+								else if(postCount > 12)
+								{
+									postCount = 12;
+									//console.log("Post lebih dari 12");
+								}
+
+								//getpost insert to array
+								var posts = [];
+								var postsdesc = [];
+								//var lastIndex = -1;
+
+								for (var i = 0; i < postCount; i++) 
+								{
+									// console.log("");
+									// console.log("--Node" + i + "--");
+									//0 = nodeOri
+									//1 = type
+									//2 = display_url
+									//3 = edge_liked_by
+									//4 = edge_media_to_comment count
+									//5 = taken_at_timestamp
+									//6 = comments_disabled
+									//7 = is_video
+									//8 = text
+
+									posts.push(new Array("","","","","","","","",""));
+									//console.log(edges.substring(edges.indexOf("{\"node\":\"__typename\":")));
+									//if(thisnode typename == vedio then search for video)
+									posts[i][0] = edges.substring(edges.indexOf("\"node\":{\"__typename\":"));
+									posts[i][1] = posts[i][0].substring(0, posts[i][0].indexOf("\","));
+									posts[i][1] = posts[i][1].substring(posts[i][1].lastIndexOf("\"") +1);
+
+									if(i != postCount-1)
+									{
+										if(posts[i][1] == "GraphImage")
+										{
+											posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
+											edges = edges.substring(posts[i][0].length);
+										}
+										else if(posts[i][1] == "GraphSidecar")
+										{
+											posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
+											edges = edges.substring(posts[i][0].length);
+										}
+										else if(posts[i][1] == "GraphVideo")
+										{
+											posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("video_view_count")));
+											edges = edges.substring(posts[i][0].length);
+										}
+									}
+									else
+									{
+										posts[i][0] = posts[i][0].substring(0,posts[i][0].lastIndexOf("]") - 1);
+									}
+
+									// Process eachNode
+									//find DisplayURL
+									posts[i][2] = posts[i][0].substring(posts[i][0].indexOf("\"display_url\":") + 15);
+									posts[i][2] = posts[i][2].substring(0,posts[i][2].indexOf("\","));
+									// find Like
+									posts[i][3] = posts[i][0].substring(posts[i][0].indexOf("\"edge_liked_by\":") + 25);
+									posts[i][3] = posts[i][3].substring(0,posts[i][3].indexOf("}"));
+									// find comment
+									posts[i][4] = posts[i][0].substring(posts[i][0].indexOf("\"edge_media_to_comment\":") + 33);
+									posts[i][4] = posts[i][4].substring(0,posts[i][4].indexOf("}"));
+									// find timestamp
+									posts[i][5] = posts[i][0].substring(posts[i][0].indexOf("\"taken_at_timestamp\":") + 21);
+									posts[i][5] = posts[i][5].substring(0,posts[i][5].indexOf(","));
+									// find comments_disabled
+									posts[i][6] = posts[i][0].substring(posts[i][0].indexOf("\"comments_disabled\":") + 20);
+									posts[i][6] = posts[i][6].substring(0,posts[i][6].indexOf(","));
+									// find is_video
+									posts[i][7] = posts[i][0].substring(posts[i][0].indexOf("\"is_video\":") + 11);
+									posts[i][7] = posts[i][7].substring(0,posts[i][7].indexOf(","));
+									// find text
+									
+									if(posts[i][0].indexOf("\"text\":") == -1)
+									{
+										result.notPost += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+									}
+									else
+									{
+										posts[i][8] = posts[i][0].substring(posts[i][0].indexOf("\"text\":") + 8);
+										posts[i][8] = posts[i][8].substring(0,posts[i][8].indexOf("\"}"));
+										posts[i][8] = posts[i][8].replace(/\\n/g, "\n");
+									}
+								}
+
+								//getFirst Element
+								console.log(instaID + "\n---------");
+								console.log(posts[0][8]);
+								if(posts[0][8].includes("[LOMBA ROBOTIK SMP"))
+								{
+									var today = new Date();
+									var dd = today.getDate();
+									var mm = today.getMonth()+ 1;
+									var yyyy = today.getFullYear();
+
+									var postTime = new Date(posts[0][5] * 1000);
+
+									var postDate = postTime.getDate();
+									var postMon = postTime.getMonth() + 1;
+									var postYear = postTime.getFullYear();
+									console.log(dd + "-" + mm + "-" + yyyy);
+
+									if(dd == postDate && mm == postMon && postYear == yyyy)
+									{
+										result.res += "- " + instaID + "\n";
+									}
+									else
+									{
+										result.notPost += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+									}
+								}
+				            }
+						}
+					});
+				}
+
+				if(x < story.length)
+				{
+					result.stories += "- " + story[x] + " https://www.instagram.com/stories/" + story[x] + "/\n";
+				}
+
+				x++;
+				if(x > story.length)
+				{
+					console.log("x Stop : " + x);
+					clearInterval(looping);
+					x = 0;
+
+					if(result.res == "")
+					{
+						result.res = "-";
+					}
+
+					if(result.privacc == "")
+					{
+						result.privacc = "-";
+					}
+
+					if(result.err == "")
+					{
+						result.err = "-";
+					}
+
+					if(result.notPost == "")
+					{
+						result.notPost = "-";
+					}
+
+					if(result.stories == "")
+					{
+						result.stories = "-";
+					}
+
+					itrcPrivEmbed.addField("Has Posted : ",result.res,true);
+					itrcPrivEmbed.addField("Not Posted Yet : ", result.notPost,true);
+					itrcPrivEmbed.addField("Private Accounts : ", result.privacc,true);
+					itrcPrivEmbed.addField("Error Accounts : ", result.err,true);
+					itrcPrivEmbed.addField("Check Story :", result.stories,true);
+					return message.channel.send(itrcPrivEmbed);
+				}
+			}
+		,1000);
 	}
 
 });
