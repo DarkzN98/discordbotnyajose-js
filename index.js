@@ -540,7 +540,7 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}itrc`)
 	{
-		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius","darkzn98"];
+		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius","darkzn98","jason_marcellino"];
 		arrUsers.sort();
 		if(args[0] == "cekpriv")
 		{
