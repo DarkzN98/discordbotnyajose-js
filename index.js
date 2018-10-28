@@ -913,7 +913,7 @@ bot.on("message", async message => {
 					return message.channel.send(itrcPrivEmbed);
 				}
 			}
-		,4000);
+		,1000);
 	}
 
 });
