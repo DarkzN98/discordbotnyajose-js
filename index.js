@@ -859,6 +859,10 @@ bot.on("message", async message => {
 										result.notPost += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
 									}
 								}
+								else
+								{
+									result.notPost += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+								}
 				            }
 						}
 					});
