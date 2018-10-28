@@ -629,7 +629,7 @@ bot.on("message", async message => {
 				if(args[1] == 1 || args[1].toLowerCase() == "selasa")
 				{
 					//Selasa
-					var igSelasa = ["marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
+					var igSelasa = ["stvnptra","marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
 					var storySelasa = ["fxaucky","26_ttam","mitchellarthur","id_richards","delvin_limanto","dafipriyadi"];
 					cekStoryAndPost(storySelasa,igSelasa);
 					//return message.channel.send("Check Selasa");
@@ -637,7 +637,7 @@ bot.on("message", async message => {
 				else if(args[1] == 2 || args[1].toLowerCase() == "rabu")
 				{
 					//Rabu
-					var storyRabu = ["marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
+					var storyRabu = ["stvnptra","marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
 					var igRabu = ["fxaucky","26_ttam","mitchellarthur","id_richards","delvin_limanto","dafipriyadi"];
 					cekStoryAndPost(storyRabu,igRabu);
 					//return message.channel.send("Check Rabu");
