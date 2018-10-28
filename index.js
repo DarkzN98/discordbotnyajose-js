@@ -87,6 +87,25 @@ bot.on("message", async message => {
 			;
 			message.channel.send(helpEmbed);
 		}
+		else if(args[0] === "itrc")
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#00FF00")
+			.setTitle("Help")
+			.setDescription("do `;help itrc <command>` for more info")
+			.addField("ITRC Commands","`;itrc privacc`\n`;itrc cekpost <index>`\n",true)
+			;
+			message.channel.send(helpEmbed);
+		}
+	}
+
+	if(command === `${prefix}cobamaxstring`)
+	{
+		let cobamaxstring = new Discord.RichEmbed()
+		.setColor("#FF00FF")
+		.setTitle("COBA MAX")
+		.addField("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25");
+		return message.channel.send(cobamaxstring);
 	}
 
 	if(command === `${prefix}cekig`)
@@ -492,7 +511,10 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}itrc`)
 	{
-		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o"];
+		var arrUsers = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius"];
+		console.log(arrUsers.length);
+		console.log("-------arruserlengt-------");
+		arrUsers.sort();
 		if(args[0] == "cekpriv")
 		{
 			var i = 0;
@@ -502,52 +524,77 @@ bot.on("message", async message => {
 			.setTitle("Check Private Result : ");
 			
 			var result = new Object();
-			result.res = "-";
-			result.privAcc = "-";
-			result.err = "-";
+			result.res = "";
+			result.privAcc = "";
+			result.err = "";
 			var wow = setInterval(
 				function()
 				{
-					var request = require('request');
-					var username = {name: arrUsers[i]};
-					console.log(username.name);
-					request('https://www.instagram.com/'+arrUsers[i]+"/", function(error, response, body)
-					{			
-						if(response.statusCode == 404)
+					
+						if(i != arrUsers.length)
 						{
-				   			result.err += "- " + username.name + "\n";
-						}
-						else
-						{
-							var instaID = username.name;
-							
-				            //isPrivateState
-				            var isPrivate = " ";
-				            isPrivate = body.substring(body.indexOf("is_private"));
-				            isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
-				            isPrivate = isPrivate.replace("\":","");
+							var request = require('request');
+							var username = {name: arrUsers[i]};
+							//console.log(username.name);
+							request('https://www.instagram.com/'+arrUsers[i]+"/", function(error, response, body)
+							{			
+								if(response != "" && response.statusCode == 404)
+								{
+						   			result.err += "- " + username.name + "\n";
+								}
+								else
+								{
+									var instaID = username.name;
+									
+						            //isPrivateState
+						            var isPrivate = " ";
+						            isPrivate = body.substring(body.indexOf("is_private"));
+						            isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
+						            isPrivate = isPrivate.replace("\":","");
 
-				      		if(isPrivate == "false")
-				      		{
-				      			result.res += "- " + instaID + "\n"; 
-				      		}
-				      		else
-				      		{
-				      			result.privAcc += "- "+instaID + " https://www.instagram.com/"+username.name+"/" + "\n";
-				      		}
+						      		if(isPrivate == "false")
+						      		{
+						      			result.res += "- " + instaID + "\n"; 
+						      		}
+						      		else
+						      		{
+						      			result.privAcc += "- "+instaID + " https://www.instagram.com/"+username.name+"/" + "\n";
+						      		}
+								}
+								});
 						}
-						});
+						
+						console.log("i sebelum" + i);
 						i++;
-						if(i > arrUsers.length)
+						console.log("i sesudah : " + i);
+
+						if(i > arrUsers.length-1)
 						{
+							console.log("i Stop : " + i);
 							clearInterval(wow);
 							i = 0;
+
+							if(result.res == "")
+							{
+								result.res = "-";
+							}
+
+							if(result.privAcc == "")
+							{
+								result.privAcc = "-";
+							}
+
+							if(result.err == "")
+							{
+								result.err = "-";
+							}
+
 							itrcPrivEmbed.addField("Not Private : ",result.res,true);
 							itrcPrivEmbed.addField("Private Accounts : ", result.privAcc,true);
 							itrcPrivEmbed.addField("Not Found Accounts : ", result.err,true);
-							//console.log(privResults);
 							return message.channel.send(itrcPrivEmbed);
 						}
+						
 					},500);
 
 			
@@ -559,11 +606,13 @@ bot.on("message", async message => {
 				if(args[1] == 1 || args[1].toLowerCase() == "selasa")
 				{
 					//Selasa
+					var igSelasa = ["marcellino_ivan","zamoranochristian7","stella_vania_o_o","julianto7314","darkzn98"];
 					return message.channel.send("Check Selasa");
 				}
 				else if(args[1] == 2 || args[1].toLowerCase() == "rabu")
 				{
 					//Rabu
+					var igRabu = [];
 					return message.channel.send("Check Rabu");
 				}
 				else if(args[1] == 3 || args[1].toLowerCase() == "jumat")
