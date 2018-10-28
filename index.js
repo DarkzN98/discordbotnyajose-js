@@ -722,7 +722,7 @@ bot.on("message", async message => {
 
 				            if(isPrivate == "true")
 				            {
-				            	result.privacc += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+				            	return result.privacc += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
 				            }
 				            else
 				            {
@@ -743,7 +743,7 @@ bot.on("message", async message => {
 
 								if(postCount == 0)
 								{
-									return result.privacc += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
+									return result.err += "- " + instaID + " https://www.instagram.com/" + instaID + "/\n";
 								}
 								else if(postCount > 12)
 								{
