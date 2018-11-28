@@ -40,7 +40,6 @@ bot.on("message", async message => {
 			.setDescription("Do `;help <command>` for extended information on a command.")
 			.addField("Instagram Commands","`;cekig` \n`;fotoig`", true)
 			.addField("Bot Commands","`;help` \n`;invite`",true)
-			.addField("ITRC Commands","`;itrc cekpriv` \n`;itrc cekpost <day>/<index>`",true)
 			;
 			message.channel.send(helpEmbed);
 		}
