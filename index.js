@@ -39,14 +39,14 @@ bot.on("message", async message => {
 			.setTitle("Help")
 			.setDescription("Do `;help <command>` for extended information on a command.")
 			.addField("Instagram Commands","`;cekig` \n`;fotoig`", true)
-			.addField("Bot Commands","`;help` \n`;invite`",true)
+			.addField("Bot Commands","`;help` \n`;invite` \n`;clear`",true)
 			;
 			message.channel.send(helpEmbed);
 		}
 		else if(args[0] === "invite")
 		{
 			let helpEmbed = new Discord.RichEmbed()
-			.setColor("#ff0000")
+			.setColor("#00FF00")
 			.setTitle(";invite")
 			.setDescription("Send This Bot's Invite Link")
 			.addField("Usage", "`;invite`", true)
@@ -56,7 +56,7 @@ bot.on("message", async message => {
 		else if(args[0] === "cekig")
 		{
 			let helpEmbed = new Discord.RichEmbed()
-			.setColor("#ff0000")
+			.setColor("#00FF00")
 			.setTitle(";cekig")
 			.setDescription("Check Instagram Account")
 			.addField("Usage", "`;cekig <username>`", true)
@@ -67,7 +67,7 @@ bot.on("message", async message => {
 		else if(args[0] === "fotoig")
 		{
 			let helpEmbed = new Discord.RichEmbed()
-			.setColor("#ff0000")
+			.setColor("#00FF00")
 			.setTitle(";fotoig")
 			.setDescription("Show Instagram Account Posts")
 			.addField("Usage", "`;fotoig <username>`\n`;fotoig <username> <postCount>`", true)
@@ -78,7 +78,7 @@ bot.on("message", async message => {
 		else if(args[0] === "help")
 		{
 			let helpEmbed = new Discord.RichEmbed()
-			.setColor("#ff0000")
+			.setColor("#00FF00")
 			.setTitle(";help")
 			.setDescription("Show This Help")
 			.addField("Usage", "`;help` \n `;help <command>`", true)
@@ -86,6 +86,41 @@ bot.on("message", async message => {
 			;
 			message.channel.send(helpEmbed);
 		}
+		else if(args[0] == "clear")
+		{
+			let helpEmbed = new Discord.RichEmbed()
+			.setColor("#00FF00")
+			.setTitle(";clear")
+			.setDescription("Clear Messagee")
+			.addField("Usage", "`;clear <amount>`", true)
+			.addField("Example","`;clear 5`",true)
+			;
+			message.channel.send(helpEmbed);
+		}
+	}
+
+	if(command === `${prefix}clear`)
+	{
+		
+		if(!args[0])
+		{
+			return message.channel.send("Invalid Amount of Argument, please do `;help clear` for more info")
+		}
+		else
+		{
+			if(!message.member.hasPermission("MANAGE_MESSAGES"))
+			{
+				return message.reply("Cannot Manage Messages!")
+			}
+			else
+			{
+				message.channel.bulkDelete(args[0]).then(() => 
+				{
+					message.channel.send(`Cleared ${args[0]} messages.`).then(msg => msg.delete(5000));
+				});
+			}
+		}
+
 	}
 
 	if(command === `${prefix}cekig`)
