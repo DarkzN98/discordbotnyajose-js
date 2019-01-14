@@ -101,7 +101,6 @@ bot.on("message", async message => {
 
 	if(command === `${prefix}clear`)
 	{
-		
 		if(!args[0])
 		{
 			return message.channel.send("Invalid Amount of Argument, please do `;help clear` for more info")
@@ -120,7 +119,6 @@ bot.on("message", async message => {
 				});
 			}
 		}
-
 	}
 
 	if(command === `${prefix}cekig`)
@@ -137,6 +135,12 @@ bot.on("message", async message => {
 				}
 				else
 				{
+
+					//loggging
+					console.log("--BODY--");
+					console.log(body);
+					console.log("--end Body--");
+
 					var instaID = args[0];
 					var title = " ";
 					title = body.substring(body.indexOf("<title>") + 7,body.indexOf("</title>"));
@@ -184,15 +188,23 @@ bot.on("message", async message => {
 
 		            //get ProfilePict URL
 		            var ppHDURL = " ";
-		            ppHDURL = body.substring(body.indexOf("\"profile_pic_url_hd\":\""));
-		            ppHDURL = ppHDURL.substring(22,ppHDURL.indexOf(".jpg")+4);
+		            ppHDURL = body.substring(body.indexOf("\"profile_pic_url_hd\":\"")+22);
+		            console.log("___now___");
+		            console.log(ppHDURL);
+		            ppHDURL = ppHDURL.substring(0,ppHDURL.indexOf("\""));
+		            console.log("asdasd__");
+		            console.log(ppHDURL);
+		            console.log("_________");
+		            console.log("--DEBUG ISI--");
 
-		            // console.log(title);
-		            // console.log(bio);
-		            // console.log(externalLinks);
-		            // console.log(isPrivate);
-		            // console.log(FFP_Info);
-		            // console.log(ppHDURL);
+
+		            console.log(title);
+		            console.log(bio);
+		            console.log(externalLinks);
+		            console.log(isPrivate);
+		            console.log(FFP_Info);
+		            console.log(ppHDURL);
+		            console.log("--END DEBUG ISI--");
 
 		            let botembed = new Discord.RichEmbed()
 		            .setTitle("INFO : ")
@@ -216,8 +228,7 @@ bot.on("message", async message => {
 			.setDescription("Invalid Amount of Argument, please do `;help cekig` for more info");
 			;
 			return message.channel.send(fotoigembed);
-		}
-			
+		}	
 	}
 
 	if(command === `${prefix}fotoig`)
@@ -532,4 +543,6 @@ bot.on("message", async message => {
 
 });
 
+
+bot.login("NDk5MjY0NTQwMDY4ODA2NjY3.Dx2yEg.mETnq6AOVLDUMDJ2w5Rl8rUaw4A");
 bot.login(process.env.token);
