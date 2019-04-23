@@ -30,6 +30,25 @@ bot.on("message", async message => {
 		return message.channel.send("Invite : https://discordapp.com/api/oauth2/authorize?client_id=499589289106210816&permissions=0&scope=bot");
 	}
 
+	if (command === `${prefix}kevin`)
+	{
+		var rand = Math.floor(Math.random() * 3) ;
+		console.log(rand);
+
+		if (rand == 1) 
+		{
+			return message.channel.send("Diketawain Sama Yang Chicken Tuh");
+		}
+		else if (rand == 2) 
+		{
+			return message.channel.send("Jangan Banyak Omong Kalau Belum Sanggup Chicken");
+		}
+		else
+		{
+			return message.channel.send("Aku Goblok");
+		}
+	}
+
 	if(command === `${prefix}help`)
 	{
 		if(args.length == 0)
@@ -97,6 +116,24 @@ bot.on("message", async message => {
 			;
 			message.channel.send(helpEmbed);
 		}
+	}
+
+	if(command === `${prefix}simpengumuman`)
+	{
+		//REQUEST HTML
+		var request = require('request');
+		request("https://sim.stts.edu/pengumuman/get#!", function(error, response, body)
+		{	
+			console.log(error);
+			if(response.statusCode == 404)
+			{
+				return message.channel.send("Err 404");
+			}
+			else
+			{
+				console.log(body);
+			}
+		});
 	}
 
 	if(command === `${prefix}clear`)
