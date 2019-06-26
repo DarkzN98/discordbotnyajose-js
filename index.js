@@ -3,6 +3,10 @@ const Discord = require("discord.js");
 
 const bot = new Discord.Client({disableEveryone: true});
 
+// RSS PARSER
+let Parser = require('rss-parser');
+const parser = new Parser();
+
 bot.on("ready", async () => {
 	console.log(`${bot.user.username} is online!`);
 });
@@ -122,16 +126,40 @@ bot.on("message", async message => {
 	{
 		//REQUEST HTML
 		var request = require('request');
-		request("https://sim.stts.edu/pengumuman/get#!", function(error, response, body)
+		request("https://sim.stts.edu/feed", function(error, response, body)
 		{	
 			console.log(error);
 			if(response.statusCode == 404)
 			{
-				return message.channel.send("Err 404");
+				return message.channel.send("Error 404~");
 			}
 			else
 			{
-				console.log(body);
+				let Parser = require('rss-parser');
+				let parser = new Parser();
+				
+				(async () => {
+				
+				let feed = await parser.parseURL('https://sim.stts.edu/feed');
+				console.log(feed.title);
+				
+				var pengumumans = feed.items;
+				
+				// console.log(pengumumans);
+				console.log("Total Pengumuman : " + pengumumans.length);
+				
+				var pengumumanEmbed = new Discord.RichEmbed()
+				.setColor('#00FF00')
+				.setTitle(feed.title)
+				.setDescription("Total Pengumuman : " + pengumumans.length + "\nLink : https://sim.stts.edu");
+				
+				for	(var i = 0; i < 10; i++)
+				{
+					pengumumanEmbed.addField(pengumumans[i].title, pengumumans[i].link, true);
+				}
+				message.channel.send(pengumumanEmbed);
+
+				})();
 			}
 		});
 	}
@@ -233,7 +261,6 @@ bot.on("message", async message => {
 		            console.log(ppHDURL);
 		            console.log("_________");
 		            console.log("--DEBUG ISI--");
-
 
 		            console.log(title);
 		            console.log(bio);
@@ -580,4 +607,4 @@ bot.on("message", async message => {
 
 });
 
-bot.login(process.env.token);
+bot.login("NDk5MjY0NTQwMDY4ODA2NjY3.Drb9dg.5ydhd6r6A7naxtn_66WOaxOY4ic");
