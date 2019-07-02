@@ -51,7 +51,10 @@ bot.on("message", async message => {
 			}
 		}
 
-		console.log(findGiveaway);
+		if(findGiveaway)
+		{
+			return message.channel.send(`Jose Ikut ${message.author}`);
+		}
 		
 	}
 
