@@ -3,13 +3,13 @@ const Discord = require("discord.js");
 
 const bot = new Discord.Client({disableEveryone: true});
 
+var listenGiveaway = false;
+
 // RSS PARSER
 let Parser = require('rss-parser');
 const parser = new Parser();
 
 // SET STATUS
-
-
 bot.on("ready", async () => {
 	console.log(`${bot.user.username} is online!`);
 	bot.user.setActivity("Jomblo Simulator: Hunt Wedok Edition",{type: 'PLAYING'});
@@ -33,10 +33,38 @@ bot.on("message", async message => {
 		return message.channel.send("hello");
 	}
 
-	// GIVEAWAY AUTOBOT
-	if(command.toLowerCase().includes("giveaway"))
+	if(listenGiveaway)
 	{
-		return message.channel.send(`Jose ${message.author}`);
+		// if mode is on
+		var findGiveaway = false;
+
+		if(command.toLowerCase().includes("giveaway"))
+		{
+			findGiveaway = true;
+		}
+
+		for(var i = 0; i < args.length; i++)
+		{
+			if(args[i].toString().toLowerCase().includes("giveaway"))
+			{
+				findGiveaway = true;
+			}
+		}
+
+		console.log(findGiveaway);
+		
+	}
+
+	if(command === `${prefix}startlistening`)
+	{
+		listenGiveaway = true;
+		console.log("Started Listening To Giveaway");
+	}
+
+	if(command === `${prefix}stoplistening`)
+	{
+		listenGiveaway = false;
+		console.log("Stopped Listening To Giveaway");
 	}
 
 	if(command === `${prefix}invite`)
