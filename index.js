@@ -7,8 +7,12 @@ const bot = new Discord.Client({disableEveryone: true});
 let Parser = require('rss-parser');
 const parser = new Parser();
 
+// SET STATUS
+
+
 bot.on("ready", async () => {
 	console.log(`${bot.user.username} is online!`);
+	bot.user.setActivity("Jomblo Simulator: Hunt Wedok Edition",{type: 'PLAYING'});
 });
 
 bot.on("message", async message => {
@@ -29,28 +33,15 @@ bot.on("message", async message => {
 		return message.channel.send("hello");
 	}
 
+	// GIVEAWAY AUTOBOT
+	if(command.toLowerCase().includes("giveaway"))
+	{
+		return message.channel.send(`Jose ${message.author}`);
+	}
+
 	if(command === `${prefix}invite`)
 	{
 		return message.channel.send("Invite : https://discordapp.com/api/oauth2/authorize?client_id=499589289106210816&permissions=0&scope=bot");
-	}
-
-	if (command === `${prefix}kevin`)
-	{
-		var rand = Math.floor(Math.random() * 3) ;
-		console.log(rand);
-
-		if (rand == 1) 
-		{
-			return message.channel.send("Diketawain Sama Yang Chicken Tuh");
-		}
-		else if (rand == 2) 
-		{
-			return message.channel.send("Jangan Banyak Omong Kalau Belum Sanggup Chicken");
-		}
-		else
-		{
-			return message.channel.send("Aku Goblok");
-		}
 	}
 
 	if(command === `${prefix}help`)
