@@ -4,6 +4,8 @@ const Discord = require("discord.js");
 const bot = new Discord.Client({disableEveryone: true});
 
 var listenGiveaway = false;
+var itland_caption = '';
+var ig_users = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius","darkzn98","jason_marcellino"];
 
 // RSS PARSER
 let Parser = require('rss-parser');
@@ -142,6 +144,70 @@ bot.on("message", async message => {
 			;
 			message.channel.send(helpEmbed);
 		}
+		else if(args[0] == "itland")
+		{
+			var next_args = args.slice(1);
+			if(next_args.length > 0)
+			{
+				if(next_args == 'changecaption')
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle(";itland changecaption")
+					.setDescription("Change ITLand Post Caption")
+					.addField("Usage", '`;itland changecaption <new_caption>`', true)
+					.addField("Example", '`;itland changecaption Hello World!`',true);
+					message.channel.send(helpEmbed);
+				}
+				else if(next_args == 'checkpost')
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle(";itland checkpost")
+					.setDescription("Check if User Already Post ITLand Posters.\n Day Args is Optional!, List Days:\n**+ Senin\n+ Selasa\n+ Rabu\n+ Kamis\n+ Jumat\n+ Sabtu\n+ Minggu\n**")
+					.addField("Usage", '`;itland checkpost`\n`;itland checkpost [day]`', true)
+					.addField("Example", '`;itland checkpost`\n`;itland checkpost senin`',true);
+					message.channel.send(helpEmbed);
+				}
+				else if(next_args == 'checkprivate')
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle(";itland checkprivate")
+					.setDescription("Check if User's Insta Private Account ")
+					.addField("Usage", '`;itland checkprivate`', true)
+					.addField("Example", '`;itland checkprivate`',true);
+					message.channel.send(helpEmbed);
+				}
+				else if(next_args == 'lookcaption')
+				{
+					let helpEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle(";itland lookcaption")
+					.setDescription("Return Current Caption *(Caption That Will Be Compared)*")
+					.addField("Usage", '`;itland lookcaption`', true)
+					.addField("Example", '`;itland lookcaption`',true);
+					message.channel.send(helpEmbed);
+				}
+				else
+				{
+					let errorEmbed = new Discord.RichEmbed()
+					.setColor("#FF0000")
+					.setTitle("No Such Command For ITLand")
+					.setDescription(`There is no command for **${next_args.join(' ')}**`);
+					message.channel.send(errorEmbed);
+				}
+			}
+			else
+			{
+				let helpEmbed = new Discord.RichEmbed()
+				.setColor("#00FF00")
+				.setTitle("ITLand Help")
+				.setDescription("Do `;help itland <command>` For Extended Information On A ITLand Command")
+				.addField("ITLand Commands", '`;changecaption`\n`;checkpost`\n`;checkprivate`\n`;lookcaption`', true);
+				message.channel.send(helpEmbed);
+			}
+		}
 	}
 
 	if(command === `${prefix}simpengumuman`)
@@ -224,9 +290,9 @@ bot.on("message", async message => {
 				{
 
 					//loggging
-					console.log("--BODY--");
-					console.log(body);
-					console.log("--end Body--");
+					// console.log("--BODY--");
+					// console.log(body);
+					// console.log("--end Body--");
 
 					var instaID = args[0];
 					var title = " ";
@@ -276,21 +342,21 @@ bot.on("message", async message => {
 		            //get ProfilePict URL
 		            var ppHDURL = " ";
 		            ppHDURL = body.substring(body.indexOf("\"profile_pic_url_hd\":\"")+22);
-		            console.log("___now___");
-		            console.log(ppHDURL);
+		            // console.log("___now___");
+		            // console.log(ppHDURL);
 		            ppHDURL = ppHDURL.substring(0,ppHDURL.indexOf("\""));
-		            console.log("asdasd__");
-		            console.log(ppHDURL);
-		            console.log("_________");
-		            console.log("--DEBUG ISI--");
+		            // console.log("asdasd__");
+		            // console.log(ppHDURL);
+		            // console.log("_________");
+		            // console.log("--DEBUG ISI--");
 
-		            console.log(title);
-		            console.log(bio);
-		            console.log(externalLinks);
-		            console.log(isPrivate);
-		            console.log(FFP_Info);
-		            console.log(ppHDURL);
-		            console.log("--END DEBUG ISI--");
+		            // console.log(title);
+		            // console.log(bio);
+		            // console.log(externalLinks);
+		            // console.log(isPrivate);
+		            // console.log(FFP_Info);
+		            // console.log(ppHDURL);
+		            // console.log("--END DEBUG ISI--");
 
 		            let botembed = new Discord.RichEmbed()
 		            .setTitle("INFO : ")
@@ -627,6 +693,335 @@ bot.on("message", async message => {
 		}
 	}
 
+	// ITLAND COMMANDS
+	if(command === `${prefix}itland`)
+	{
+		if(args.length > 0)
+		{
+			// ada isi
+			if(args[0] === 'changecaption')
+			{
+				// change captions
+				if(args[1] != undefined)
+				{
+					// Change The Captions
+					var caption = args.slice(1);
+					itland_caption = caption.join(' ');
+					
+					let success_embed = new Discord.RichEmbed()
+					.setTitle("ITLand Change Caption")
+					.setColor("#00FF00")
+					.setDescription(`Successfuly Changed The Caption To: \n\n**${itland_caption}**`);
+					return message.channel.send(success_embed);
+				}
+				else
+				{
+					let error_embed = new Discord.RichEmbed()
+					.setTitle("ITLand Change Caption")
+					.setColor("#FF0000")
+					.setDescription(`Error Changing The Caption Because **No Caption is Provided**.\nPlease Do \`;help itland changecaption\` For More Information.`);
+					return message.channel.send(error_embed);
+				}
+			}
+			else if(args[0] === 'lookcaption')
+			{
+				let capt_now = new Discord.RichEmbed()
+				.setTitle("ITLand Look Caption")
+				.setColor("#00FF00")
+				.setDescription(`Caption Now :\n\n**${itland_caption}**`);
+				return message.channel.send(capt_now);
+			}
+			else if(args[0] === 'checkprivate')
+			{
+				var infoEmbed = new Discord.RichEmbed()
+				.setTitle("Check Private Info")
+				.setColor("#7AD7F0")
+				.setDescription("***Checking Instagram Accounts. This May Take A While :)***");
+				message.channel.send(infoEmbed);
+				//check privates account?
+				var privates = [];
+				var not_private = [];
+				var not_found = [];
+
+				counter = 0;
+
+				function checknext()
+				{
+					if(counter >= ig_users.length)
+					{
+						if (privates.length <= 0) {privates = ['-']}
+						if (not_private.length <= 0) {not_private = ['-']}
+						if (not_found.length <= 0) {not_found = ['-']}
+
+						var embed = new Discord.RichEmbed()
+						.setColor("#00AE86")
+						.setTitle("Check Private Results")
+						.addField("Private Accounts: ", privates.join('\n'),true)
+						.addField("Not Private Accounts: ", not_private.join('\n'), true)
+						.addField("Not Found Accounts: ", not_found.join("\n"),true)
+						;
+						return message.channel.send(embed);
+					}
+					else
+					{
+						var request = require('request');
+						request
+						(
+							'https://www.instagram.com/'+ig_users[counter]+"/",
+							(error, response, body) =>
+							{			
+								if(response.statusCode == 404)
+								{
+									not_found.push(ig_users[counter]);
+								}
+								else
+								{
+									//isPrivateState
+									var isPrivate = " ";
+									isPrivate = body.substring(body.indexOf("is_private"));
+									isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
+									isPrivate = isPrivate.replace("\":","");
+
+									if(isPrivate == 'true')
+									{
+										privates.push(ig_users[counter]);
+									}
+									else
+									{
+										not_private.push(ig_users[counter]);
+									}
+								}
+								counter++;
+								checknext();
+							}
+						);
+					}
+				}
+				checknext();
+			}
+			else if(args[0] === 'checkpost')
+			{
+				var date_now = new Date();
+				var checker = [true,false];
+				var counter = 0;
+
+				if(!checker[date_now.getDate()%2])
+				{
+					counter = 1;
+				}
+
+				var posted = [];
+				var not_posted = [];
+				var privates = [];
+
+				function checknext()
+				{
+					if(counter >= ig_users.length)
+					{
+						if(posted.length <= 0){posted = ['-']}
+						if(not_posted.length <= 0){not_posted = ['-']}
+
+						var embed = new Discord.RichEmbed()
+						.setColor("#00AE86")
+						.setTitle("Check Private Results")
+						.addField("Posted: ", posted.join('\n'),true)
+						.addField("Not Posted: ", not_posted.join('\n'), true)
+						;
+
+						if(privates.length > 0)
+						{
+							embed.addField("Private Account: ", privates.join('\n'),true);
+						}
+						return message.channel.send(embed);
+					}
+					else
+					{
+						console.log(counter);
+						var request = require('request');
+						request
+						(
+							'https://www.instagram.com/'+ig_users[counter]+"/",
+							(error, response, body) =>
+							{			
+								if(response.statusCode == 404)
+								{
+									message.channel.send(`> \`${ig_users[counter]}\` Not Found!`);
+									counter+=2;
+									checknext();
+								}
+								else
+								{
+									//isPrivateState
+									var isPrivate = " ";
+									isPrivate = body.substring(body.indexOf("is_private"));
+									isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
+									isPrivate = isPrivate.replace("\":","");
+
+									if(isPrivate == 'true')
+									{
+										privates.push(ig_users[counter]);
+										counter+=2;
+										checknext();
+									}
+									else
+									{
+										var edges = body.substring(body.indexOf("\"edge_owner_to_timeline_media\""),body.indexOf("},\"edge_saved_media\":"));
+
+										//get edges count
+										var edgesCount = edges.substring(edges.indexOf("\"count\":"));
+										edgesCount = edgesCount.substring(0,edgesCount.indexOf(","));
+										edgesCount = edgesCount.substring(edgesCount.indexOf(":")+1);
+
+										//getPosts
+										edges = edges.substring(edges.indexOf("\"edges\":"));
+										var postCount = edgesCount;
+
+										// console.log(edges);
+										// console.log("Edges Count = " + edgesCount);
+										if(postCount <= 0)
+										{
+											not_posted.push(ig_users[counter]);
+											counter+=2;
+											checknext();
+										}
+										else if(postCount > 12)
+										{
+											postCount = 12;
+											//console.log("Post lebih dari 12");
+										}
+
+										//getpost insert to array
+										var posts = [];
+										var postsdesc = [];
+										//var lastIndex = -1;
+
+										for (var i = 0; i < postCount; i++) 
+										{
+											// console.log("");
+											// console.log("--Node" + i + "--");
+											//0 = nodeOri
+											//1 = type
+											//2 = display_url
+											//3 = edge_liked_by
+											//4 = edge_media_to_comment count
+											//5 = taken_at_timestamp
+											//6 = comments_disabled
+											//7 = is_video
+											//8 = text
+
+											posts.push(new Array("","","","","","","","",""));
+											//console.log(edges.substring(edges.indexOf("{\"node\":\"__typename\":")));
+											//if(thisnode typename == vedio then search for video)
+											posts[i][0] = edges.substring(edges.indexOf("\"node\":{\"__typename\":"));
+											posts[i][1] = posts[i][0].substring(0, posts[i][0].indexOf("\","));
+											posts[i][1] = posts[i][1].substring(posts[i][1].lastIndexOf("\"") +1);
+
+											if(i != postCount-1)
+											{
+												if(posts[i][1] == "GraphImage")
+												{
+													posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
+													edges = edges.substring(posts[i][0].length);
+												}
+												else if(posts[i][1] == "GraphSidecar")
+												{
+													posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("accessibility_caption")));
+													edges = edges.substring(posts[i][0].length);
+												}
+												else if(posts[i][1] == "GraphVideo")
+												{
+													posts[i][0] = posts[i][0].substring(0,posts[i][0].indexOf("},",posts[i][0].indexOf("video_view_count")));
+													edges = edges.substring(posts[i][0].length);
+												}
+											}
+											else
+											{
+												posts[i][0] = posts[i][0].substring(0,posts[i][0].lastIndexOf("]") - 1);
+											}
+
+											// Process eachNode
+											//find DisplayURL
+											posts[i][2] = posts[i][0].substring(posts[i][0].indexOf("\"display_url\":") + 15);
+											posts[i][2] = posts[i][2].substring(0,posts[i][2].indexOf("\","));
+											// find Like
+											posts[i][3] = posts[i][0].substring(posts[i][0].indexOf("\"edge_liked_by\":") + 25);
+											posts[i][3] = posts[i][3].substring(0,posts[i][3].indexOf("}"));
+											// find comment
+											posts[i][4] = posts[i][0].substring(posts[i][0].indexOf("\"edge_media_to_comment\":") + 33);
+											posts[i][4] = posts[i][4].substring(0,posts[i][4].indexOf("}"));
+											// find timestamp
+											posts[i][5] = posts[i][0].substring(posts[i][0].indexOf("\"taken_at_timestamp\":") + 21);
+											posts[i][5] = posts[i][5].substring(0,posts[i][5].indexOf(","));
+											// find comments_disabled
+											posts[i][6] = posts[i][0].substring(posts[i][0].indexOf("\"comments_disabled\":") + 20);
+											posts[i][6] = posts[i][6].substring(0,posts[i][6].indexOf(","));
+											// find is_video
+											posts[i][7] = posts[i][0].substring(posts[i][0].indexOf("\"is_video\":") + 11);
+											posts[i][7] = posts[i][7].substring(0,posts[i][7].indexOf(","));
+											// find text
+
+											if(posts[i][0].indexOf("\"text\":") == -1)
+											{
+												not_posted.push(ig_users[counter]);
+											}
+											else
+											{
+												posts[i][8] = posts[i][0].substring(posts[i][0].indexOf("\"text\":") + 8);
+												posts[i][8] = posts[i][8].substring(0,posts[i][8].indexOf("\"}"));
+												posts[i][8] = posts[i][8].replace(/\\n/g, "\n");
+											}
+										}
+
+										if(posts[0] != undefined)
+										{
+											var posttime = new Date(posts[0][5] * 1000);
+
+											if(date_now.getDate() == posttime.getDate() && date_now.getMonth() == posttime.getMonth() && date_now.getFullYear() == posttime.getFullYear())
+											{
+												// Date Sama
+												if(posts[0][8].toLowerCase().includes(itland_caption.toLowerCase()))
+												{
+													posted.push(ig_users[counter]);
+												}
+												else
+												{
+													not_posted.push(ig_users[counter]);
+												}
+											}
+											else
+											{
+												not_posted.push(ig_users[counter]);
+											}
+										}
+										else
+										{
+											not_posted.push(ig_users[counter]);
+										}
+										
+										counter+=2;
+										checknext();
+									}
+								}
+							}
+						);
+					}
+				}
+				checknext();
+			}
+		}
+		else
+		{
+			// No Commands SHow Embed
+			let no_command = 
+			new Discord.RichEmbed()
+			.setTitle("ITLAND Missing Some Args!")
+			.setColor("#FF0000")
+			.setDescription("ITLand Command Missing Some Args! Please Do `;help itland` For More Information");
+			return message.channel.send(no_command);
+		}
+	}
+
 });
 
-bot.login(process.env.token);
+// bot.login(process.env.token);
+bot.login("NDk5MjY0NTQwMDY4ODA2NjY3.Drb9dg.5ydhd6r6A7naxtn_66WOaxOY4ic");
