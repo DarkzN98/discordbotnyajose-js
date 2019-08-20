@@ -5,7 +5,7 @@ const bot = new Discord.Client({disableEveryone: true});
 
 var listenGiveaway = false;
 var itland_caption = '';
-var ig_users = ["kris_sastrabudi","id_richards","zamoranochristian7","kelvingnw","26_ttam","gedionsaputra","mitchellarthur","marcellino_ivan", "wanderingsoul_id","epiphany_lithia","williamhartanto25", "dafipriyadi","malvinpatrick","fxaucky","excelalexander","robbydarmawan98","julianto7314","delvin_limanto","will.gun","yohanesivan__","stella_vania_o_o","stvnptra","adrianiignatius","darkzn98","jason_marcellino"];
+var ig_users = ['adrian.natabuwana','ameliadwijayani','d4cornia','darkzn98','enrichoglenns','fransisca_kartika','fxaucky','gabrielleakho','hwisesa23','j_harijadi','jamesjf7','katherinelimanu','kevin_setiabudi','kris_sastrabudi','lgc282','marcellino_ivan','marvel_bp','pindavin','rickysulvoila','stella_vania_o_o','stev_evan','v_tan4869','williamhartanto25','Yongki40','yulius1122'];
 
 // RSS PARSER
 let Parser = require('rss-parser');
@@ -801,6 +801,13 @@ bot.on("message", async message => {
 			}
 			else if(args[0] === 'checkpost')
 			{
+
+				var infoEmbed = new Discord.RichEmbed()
+				.setTitle("Check Post Info")
+				.setColor("#7AD7F0")
+				.setDescription("***Checking Instagram Accounts Post. This May Take A While :)***");
+				message.channel.send(infoEmbed);
+
 				var date_now = new Date();
 				var checker = [true,false];
 				var counter = 0;
@@ -823,7 +830,7 @@ bot.on("message", async message => {
 
 						var embed = new Discord.RichEmbed()
 						.setColor("#00AE86")
-						.setTitle("Check Private Results")
+						.setTitle("Check Post Results")
 						.addField("Posted: ", posted.join('\n'),true)
 						.addField("Not Posted: ", not_posted.join('\n'), true)
 						;
@@ -836,7 +843,6 @@ bot.on("message", async message => {
 					}
 					else
 					{
-						console.log(counter);
 						var request = require('request');
 						request
 						(
@@ -1023,5 +1029,4 @@ bot.on("message", async message => {
 
 });
 
-// bot.login(process.env.token);
-bot.login("NDk5MjY0NTQwMDY4ODA2NjY3.Drb9dg.5ydhd6r6A7naxtn_66WOaxOY4ic");
+bot.login(process.env.token);
