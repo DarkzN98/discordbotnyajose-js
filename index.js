@@ -5,7 +5,8 @@ const bot = new Discord.Client({disableEveryone: true});
 
 var listenGiveaway = false;
 var itland_caption = '';
-var ig_users = ['adrian.natabuwana','ameliadwijayani','d4cornia','darkzn98','enrichoglenns','fransisca_kartika','fxaucky','gabrielleakho','hwisesa23','j_harijadi','jamesjf7','katherinelimanu','kevin_setiabudi','kris_sastrabudi','lgc282','marcellino_ivan','marvel_bp','pindavin','richardgnwan','rickysulvoila','stella_vania_o_o','stev_evan','v_tan4869','williamhartanto25','yesthisisbobb','Yongki40','yulius1122'];
+var ig_users = ['adrian.natabuwana','ameliadwijayani','d4cornia','darkzn98','enrichoglenns','fransisca_kartika','fxaucky','gabrielleakho','hwisesa23','j_harijadi','jamesjf7','katherinelimanu','kevin_setiabudi','kris_sastrabudi','lgc282','marcellino_ivan','marvel_bp','pindavin','richardgnwan','rickysulvoila','stella_vania_o_o','stev_evan','v_tan4869','williamhartanto25','yesthisisbobb','yongki40','yulius1122','zamoranochristian7','yosualexx','jmichael1711','julianto7314','jennychndr_'];
+ig_users.sort();
 
 // RSS PARSER
 let Parser = require('rss-parser');
@@ -743,32 +744,71 @@ bot.on("message", async message => {
 			}
 			else if(args[0] === 'lookjadwal')
 			{
-				var date_now = new Date();
-				var must_post = [];
-				var checker = [true, false];
-
-				if(checker[date_now.getDate()%2])
-				{	
-					for(var i = 0; i < ig_users.length; i+=2)
+				var next_args = args.slice(1);
+				if(next_args.length != 0)
+				{
+					if(next_args[0] == 'today')
 					{
-						must_post.push(ig_users[i]);
+						var date_now = new Date();
+						var must_post = [];
+						var checker = [true, false];
+
+						if(checker[date_now.getDate()%2])
+						{	
+							for(var i = 0; i < ig_users.length; i+=2)
+							{
+								must_post.push(ig_users[i]);
+							}
+						}
+						else
+						{
+							for(var i = 1; i < ig_users.length; i+=2)
+							{
+								must_post.push(ig_users[i]);
+							}
+						}
+
+						let infoEmbed = new Discord.RichEmbed()
+						.setColor("#00FF00")
+						.setTitle("ITLand Jadwal Post")
+						.setDescription(`Tanggal: **${date_now.getDate()}** \`(is_genap: ${checker[date_now.getDate()%2]})\``)
+						.addField("Harus Post Instagram:", `${must_post.join('\n')}`,true)
+						.setFooter(`Total: \`${must_post.length}\``)
+						;
+						return message.channel.send(infoEmbed);
 					}
 				}
 				else
 				{
-					for(var i = 1; i < ig_users.length; i+=2)
-					{
-						must_post.push(ig_users[i]);
-					}
-				}
+					var date_now = new Date();
+					var checker = [true, false];
+					var genap = [];
+					var ganjil = [];
 
-				let infoEmbed = new Discord.RichEmbed()
-				.setColor("#00FF00")
-				.setTitle("ITLand Jadwal Post")
-				.setDescription(`Tanggal: **${date_now.getDate()}** \`(is_genap: ${checker[date_now.getDate()%2]})\``)
-				.addField("Harus Post Instagram:", `${must_post.join('\n')}`,true)
-				;
-				return message.channel.send(infoEmbed);
+					for(var i = 0; i < ig_users.length; i++)
+					{
+						if(i%2 == 0)
+						{
+							genap.push(ig_users[i]);
+						}
+						else
+						{
+							ganjil.push(ig_users[i]);
+						}
+					}
+
+					let infoEmbed = new Discord.RichEmbed()
+					.setColor("#00FF00")
+					.setTitle("ITLand Jadwal Post")
+					.setDescription(`Tanggal: **${date_now.getDate()}** \`(is_genap: ${checker[date_now.getDate()%2]})\``)
+					.addField("Tanggal Genap:", `${genap.join('\n')}`,true)
+					.addField("Tanggal Ganjil:", `${ganjil.join('\n')}`,true)
+					.setFooter(`Total: \`${ig_users.length}\``)
+					;
+					return message.channel.send(infoEmbed);
+
+				}
+				
 			}
 			else if(args[0] === 'checkprivate')
 			{
