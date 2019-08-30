@@ -194,10 +194,10 @@ bot.on("message", async message => {
 				{
 					let helpEmbed = new Discord.RichEmbed()
 					.setColor("#00FF00")
-					.setTitle(";itland lookjadwal")
+					.setTitle(";itland lookjadwal [today]")
 					.setDescription("Return Users That Must Post")
-					.addField("Usage", '`;itland lookjadwal`', true)
-					.addField("Example", '`;itland lookjadwal`',true);
+					.addField("Usage", '`;itland lookjadwal [today]`', true)
+					.addField("Example", '`;itland lookjadwal`\n`;itland lookjadwal today`',true);
 					message.channel.send(helpEmbed);
 				}
 				else
@@ -827,6 +827,7 @@ bot.on("message", async message => {
 
 				function checknext()
 				{
+					
 					if(counter >= ig_users.length)
 					{
 						if (privates.length <= 0) {privates = ['-']}
@@ -844,6 +845,7 @@ bot.on("message", async message => {
 					}
 					else
 					{
+						console.log(`Checking ${ig_users[counter]}`);
 						var request = require('request');
 						request
 						(
@@ -861,7 +863,8 @@ bot.on("message", async message => {
 									isPrivate = body.substring(body.indexOf("is_private"));
 									isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
 									isPrivate = isPrivate.replace("\":","");
-
+									
+									console.log(`${ig_users[counter]}: ${isPrivate}`)
 									if(isPrivate == 'true')
 									{
 										privates.push(ig_users[counter]);
