@@ -858,13 +858,13 @@ bot.on("message", async message => {
 								}
 								else
 								{
+									console.log("BODY: " + body);
 									//isPrivateState
 									var isPrivate = " ";
 									isPrivate = body.substring(body.indexOf("is_private"));
 									isPrivate = isPrivate.substring(isPrivate.indexOf("\":"), isPrivate.indexOf(",\""));
 									isPrivate = isPrivate.replace("\":","");
 									
-									console.log(`${ig_users[counter]}: ${isPrivate}`)
 									if(isPrivate == 'true')
 									{
 										privates.push(ig_users[counter]);
